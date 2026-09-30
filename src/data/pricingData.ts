@@ -12,7 +12,7 @@ export type PlanTier = "starter" | "pro" | "elite" | "business";
 /** Monthly Megsy Credits included with each tier. */
 export const PLAN_MONTHLY_CREDITS: Record<PlanTier, number> = {
   starter: 70,
-  pro: 300,
+  pro: 1000,
   elite: 600,
   business: 1200,
 };
@@ -113,7 +113,7 @@ export const PLANS: PlanCardConfig[] = [
     firstMonthPrice: 7,
 
     monthlyCredits: `${PLAN_MONTHLY_CREDITS.pro} MC / month`,
-    yearlyCredits: "3,600 credits / year · save $60",
+    yearlyCredits: "12,000 credits / year · save $60",
     features: PRO_FEATURES,
     monthlyFeatures: PRO_FEATURES,
     yearlyFeatures: [...yearlyIntro(60, 0).slice(0, 1), ...PRO_FEATURES],
@@ -265,7 +265,7 @@ export const SERVICES_GUIDE: { name: string; desc: string }[] = [
   },
   {
     name: "Video Generation",
-    desc: "Each video costs 25 credits. Pro members receive 300 credits every month.",
+    desc: "Each video costs 25 credits. Pro members receive 1,000 credits every month.",
   },
   {
     name: "Megsy OS",
@@ -284,7 +284,7 @@ export const SERVICES_GUIDE: { name: string; desc: string }[] = [
 export const FAQS: { q: string; a: string }[] = [
   {
     q: "How does the introductory first month work?",
-    a: "Your first month costs $7, then Pro renews at $15 a month. Each month includes 300 credits. You can cancel anytime.",
+    a: "Your first month costs $7, then Pro renews at $15 a month. Each month includes 1,000 credits. You can cancel anytime.",
   },
   {
     q: "Can I change or cancel my plan anytime?",

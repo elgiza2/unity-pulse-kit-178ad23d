@@ -8,9 +8,9 @@ import { openCheckoutUrl } from "@/lib/openCheckout";
 import { translateExactText, useUserLang } from "@/lib/authI18n";
 
 export const CREDIT_PACKS = [
-  { sku: "pack_100", credits: 100, price: 6, note: "" },
-  { sku: "pack_300", credits: 300, price: 15, note: "Most popular · save 17%" },
-  { sku: "pack_700", credits: 700, price: 29, note: "Best value · save 31%" },
+  { sku: "pack_500", credits: 500, price: 9, note: "" },
+  { sku: "pack_1200", credits: 1200, price: 19, note: "Most popular · save 12%" },
+  { sku: "pack_3000", credits: 3000, price: 39, note: "Best value · save 28%" },
 ];
 
 export default function CreditPacks({ isPro }: { isPro: boolean }) {
