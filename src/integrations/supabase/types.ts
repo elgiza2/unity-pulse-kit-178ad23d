@@ -12097,6 +12097,16 @@ export type Database = {
           tier_name: string
         }[]
       }
+      charge_credits_once: {
+        Args: {
+          p_action_type: string
+          p_amount: number
+          p_description: string
+          p_operation_key: string
+          p_user_id: string
+        }
+        Returns: Json
+      }
       check_api_rate_limit: {
         Args: {
           _endpoint: string
@@ -12517,6 +12527,10 @@ export type Database = {
         Returns: string
       }
       referral_required_task_keys: { Args: never; Returns: string[] }
+      refund_credits_once: {
+        Args: { p_operation_key: string; p_reason?: string }
+        Returns: Json
+      }
       refund_daily_video: {
         Args: { _period: string; _user_id: string }
         Returns: undefined
