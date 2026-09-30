@@ -461,7 +461,7 @@ const ReferralsPage = () => {
   return (
     <ReferralsCtx.Provider value={ctx}>
       {isDesktop ? (
-        <div className="flex h-[100dvh] w-full overflow-hidden bg-background text-foreground">
+        <div className="referrals-desktop-shell flex h-[100dvh] w-full overflow-hidden bg-background text-foreground">
           <aside
             style={{ width: 320, minWidth: 320, flexBasis: 320 }}
             className="relative z-40 hidden shrink-0 overflow-hidden transition-[width,min-width,flex-basis] duration-300 md:flex"
@@ -469,7 +469,7 @@ const ReferralsPage = () => {
             <AppSidebar open inline forceExpanded onClose={() => {}} onNewChat={() => navigate("/")} />
           </aside>
           <main className="relative min-w-0 flex-1 overflow-y-auto bg-background">
-            {content}
+            <div className="referrals-desktop-content">{content}</div>
           </main>
         </div>
       ) : (

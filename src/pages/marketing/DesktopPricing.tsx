@@ -21,15 +21,20 @@ const ORDER: PlanTier[] = ["starter", "pro", "elite", "business"];
 export default function DesktopPricing({ plans, faqs, isYearly, setIsYearly, loadingTier, currentPlan, onSubscribe }: Props) {
   const lang = useUserLang();
   const t = (s: string) => translateExactText(s, lang);
+  const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const curIdx = ORDER.indexOf(((currentPlan ?? "starter").toLowerCase() as PlanTier));
   const shown = plans.filter((p) => p.tier === "pro");
 
   return (
-    <div className="mx-auto w-full max-w-[1080px] px-12 pb-24">
+    <div className="desktop-pricing-frame mx-auto w-full max-w-[1080px] px-12 pb-24">
       {/* Header */}
       <header className="flex items-end justify-between gap-10 border-b border-border pt-20 pb-12">
         <div className="max-w-xl">
+          <button type="button" className="desktop-pricing-back mb-7" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-4 w-4 rtl-flip" />
+            {t("Back")}
+          </button>
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t("Pricing")}</p>
           <h1 className="mt-4 text-[56px] leading-[1.02] font-semibold tracking-[-0.04em]">
             {t("One agent.")}
