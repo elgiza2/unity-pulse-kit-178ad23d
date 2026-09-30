@@ -20,6 +20,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { claimDailyCredits, fetchCreditOverview, type CreditOverview } from "@/lib/creditsSystem";
 import { useUserLang } from "@/lib/authI18n";
+import CreditPacks from "@/components/billing/CreditPacks";
 
 type Tx = {
   id: string;
@@ -189,6 +190,17 @@ export default function UsagePage() {
             <Stat label={ar ? "التجديد" : "Refresh"} value={refreshIn ?? "—"} />
           </div>
         </section>
+
+        {/* Balance breakdown */}
+        <section className="mt-4 grid grid-cols-2 gap-2 rounded-[28px] bg-card p-5 ring-1 ring-border/60 text-center sm:grid-cols-4">
+          <Stat label={ar ? "يومي" : "Daily"} value={ov ? fmt(ov.dailyCredits) : "—"} />
+          <Stat label={ar ? "هدايا" : "Bonus"} value={ov ? fmt(ov.bonusCredits) : "—"} />
+          <Stat label={ar ? "الباقة" : "Plan"} value={ov ? fmt(ov.planCredits) : "—"} />
+          <Stat label={ar ? "مشترى" : "Purchased"} value={ov ? fmt(ov.purchasedCredits) : "—"} />
+        </section>
+
+        {!signedOut && <CreditPacks isPro={paid} />}
+
 
         {/* History */}
         <h2 className="mb-3 mt-10 px-1 text-[12px] font-semibold uppercase tracking-wider text-muted-foreground">

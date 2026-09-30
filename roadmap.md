@@ -124,3 +124,7 @@
 - [x] Apply safe initial balances to all existing users without double grants.
 - [x] Enforce charging/refunds for the active agent, image, and video paths; chat stays free.
 - [x] Update desktop pricing and shared price copy from the unified catalog.
+
+## Credit system (30 Sep)
+- [x] Once-only charge/refund for image, video, agent; credit packs 100/$6, 300/$15, 700/$29 (Pro only) on desktop pricing + credits page; balances reset for all users.
+- [ ] Buying a pack end to end not tested with a real payment.

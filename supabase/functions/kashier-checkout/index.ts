@@ -121,6 +121,12 @@ Deno.serve(async (request) => {
       .maybeSingle();
     row = (data as CatalogRow | null) ?? null;
   }
+  const isPack = row?.tier === "credits";
+  if (isPack) {
+    const { data: prof } = await admin.from("profiles").select("plan").eq("id", user.id).maybeSingle();
+    if (String((prof as any)?.plan ?? "free") === "free")
+      return json({ error: "Credit packs are available for Pro members." }, 403);
+  }
   if (!row) row = await resolveRow(tier, interval, { trial, winback });
   if (!row) return json({ error: "This plan isn't available for local payment yet." }, 400);
 
@@ -144,7 +150,7 @@ Deno.serve(async (request) => {
     amount,
     currency,
     credits: Number(row.credits ?? 0),
-    plan: row.tier,
+    plan: isPack ? null : row.tier,
     method,
     status: "pending",
     raw: {

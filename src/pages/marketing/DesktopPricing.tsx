@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Check, Loader2, Plus, Minus, ArrowRight } from "lucide-react";
 import { getDisplayPrice, type PlanCardConfig, type PlanTier } from "@/data/pricingData";
 import { translateExactText, useUserLang } from "@/lib/authI18n";
+import CreditPacks from "@/components/billing/CreditPacks";
 
 type Props = {
   plans: PlanCardConfig[];
@@ -126,6 +127,10 @@ export default function DesktopPricing({ plans, faqs, isYearly, setIsYearly, loa
           <p className="mt-8 text-[13px] leading-relaxed text-muted-foreground">{t("Free accounts get 10 welcome credits and 5 daily credits. Pro members can add 100, 300 or 700-credit packs.")}</p>
         </aside>
       </section>
+
+      <div className="border-b border-border">
+        <CreditPacks isPro={!!currentPlan && currentPlan !== "free"} />
+      </div>
 
       {/* Free line */}
       <div className="flex items-center justify-between border-b border-border py-8 text-[14px]">
