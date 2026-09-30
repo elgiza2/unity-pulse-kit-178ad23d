@@ -108,11 +108,11 @@ export default function MobilePricingScreen({
       icon: MegsyFeatureIcon,
       text: isYearly
         ? isAr
-          ? "240 رصيد Megsy كل شهر"
-          : "240 Megsy Credits every month"
+          ? "1000 رصيد Megsy كل شهر"
+          : "1,000 Megsy Credits every month"
         : isAr
-          ? "240 رصيد Megsy مع الاشتراك"
-          : "240 Megsy Credits with your plan",
+          ? "1000 رصيد Megsy مع الاشتراك"
+          : "1,000 Megsy Credits with your plan",
     };
 
     return [head, ...base];
