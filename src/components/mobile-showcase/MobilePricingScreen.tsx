@@ -83,7 +83,7 @@ export default function MobilePricingScreen({
   const { plan } = useUserPlan();
   const alreadySubscribed = plan === "pro" || plan === "max" || plan === "elite";
 
-  // Always exactly 6 rows so the card height (and the CTA position) never
+  // Keep the benefit rows stable so the card height (and the CTA position) never
   // shifts when the billing interval changes — only the first row's copy does.
   const features = useMemo(() => {
     const base = isAr
@@ -92,16 +92,14 @@ export default function MobilePricingScreen({
           { icon: Clock, text: "مهام حتى 4 ساعات" },
           { icon: Bot, text: "3 وكلاء متوازيين" },
           { icon: Search, text: "بحث عميق موثّق بالمصادر" },
-          { icon: InfinityIcon, text: "دردشة وتوليد صور بلا حدود" },
-          { icon: InfinityIcon, text: "فيديوهات بلا حدود لمدة 7 أيام" },
+          { icon: InfinityIcon, text: "دردشة بلا حدود" },
         ]
       : [
           { icon: Monitor, text: "A real cloud computer" },
           { icon: Clock, text: "Tasks up to 4 hours" },
           { icon: Bot, text: "3 agents in parallel" },
           { icon: Search, text: "Deep research with citations" },
-          { icon: InfinityIcon, text: "Unlimited chat & images" },
-          { icon: InfinityIcon, text: "Unlimited videos for 7 days" },
+          { icon: InfinityIcon, text: "Unlimited chat" },
         ];
 
     const head = {
@@ -115,7 +113,10 @@ export default function MobilePricingScreen({
           : "1,000 Megsy Credits with your plan",
     };
 
-    return [head, ...base];
+    return [head, ...base, {
+      icon: MegsyFeatureIcon,
+      text: isAr ? "الصورة: 2 رصيد · الفيديو: 25 رصيد" : "Images: 2 credits · Videos: 25 credits",
+    }];
   }, [isAr, isYearly]);
 
 

@@ -69,7 +69,7 @@ const PRO_FEATURES = [
   "3 background agents working in parallel",
   "Deep Research with citation-backed reports",
   "Unlimited chat with every flagship model",
-  "300 Megsy Credits every month",
+  "1,000 Megsy Credits every month",
   "Images cost 2 credits each",
   "Videos cost 25 credits each",
   "Agent tasks cost 1–50 credits, based on the work",

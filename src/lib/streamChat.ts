@@ -322,22 +322,11 @@ export async function streamChat({
     origOnDelta(chunk);
   };
 
-  // The lightweight lane skips the per-user preflight. That is fine for
-  // ordinary chat, but it would hide connected apps and MCP servers from the
-  // model. Resolve a cached context snapshot before choosing the lane so a
-  // Gmail/MCP request always reaches the full agent with its tools attached.
+  // Do not put the eight-query settings preflight on the critical path. The
+  // fast lane is intentionally the first attempt for ordinary chat; when it
+  // escalates, the full path below fetches the complete context before sending
+  // the request so connected apps and MCP tools are still preserved.
   let hasConnectedTools = false;
-  if (user_id) {
-    try {
-      const { fetchTurnContext } = await import("@/lib/chat/turnContext");
-      const ctx = await fetchTurnContext();
-      hasConnectedTools = Boolean(
-        ctx.mcpServers.length || ctx.connectedApps.length || ctx.apiApps.length,
-      );
-    } catch {
-      hasConnectedTools = false;
-    }
-  }
 
   // Rescue: the full chat path can stall before it emits a single byte (heavy
   // build/task prompts). Rather than leaving the user on an endless
