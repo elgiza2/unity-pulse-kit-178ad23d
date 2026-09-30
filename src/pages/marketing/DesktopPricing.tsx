@@ -127,6 +127,10 @@ export default function DesktopPricing({ plans, faqs, isYearly, setIsYearly, loa
         </aside>
       </section>
 
+      <div className="border-b border-border">
+        <CreditPacks isPro={!!currentPlan && currentPlan !== "free"} />
+      </div>
+
       {/* Free line */}
       <div className="flex items-center justify-between border-b border-border py-8 text-[14px]">
         <span className="text-muted-foreground">{t("Not ready? Chat stays free, with 5 credits refreshed daily.")}</span>
