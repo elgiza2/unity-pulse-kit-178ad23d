@@ -67,7 +67,9 @@ export async function handleAgent(
     const keys = await vaultKeys(PROVIDER);
     if (!keys.length) return out({ error: "no_capacity" }, 503);
     const cost = 1;
-    const spent = await db.rpc("spend_credits_auto", {
+    const opKey = String(body?.request_id || crypto.randomUUID());
+    const spent = await db.rpc("charge_credits_once", {
+      p_operation_key: opKey,
       p_user_id: userId,
       p_amount: cost,
       p_action_type: "agent_run",
@@ -77,12 +79,7 @@ export async function handleAgent(
       return out({ error: "insufficient_credits", required_credits: cost, message: "You need at least 1 credit to start an agent task." }, 402);
     }
     const refund = async () => {
-      await db.rpc("grant_user_credits", {
-        p_user_id: userId,
-        p_amount: cost,
-        p_action_type: "agent_run_refund",
-        p_description: "Refund for failed agent start",
-      });
+      await db.rpc("refund_credits_once", { p_operation_key: opKey, p_reason: "Refund for failed agent start" });
     };
     let lastError = "provider_error";
     let planLockedKeys = 0;

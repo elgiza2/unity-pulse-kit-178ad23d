@@ -218,7 +218,9 @@ Deno.serve(async (request) => {
       402,
     );
   const cost = Number(quota.data.cost || rule.cost);
-  const spent = await db.rpc("spend_credits_auto", {
+  const opKey = String(body?.request_id || crypto.randomUUID());
+  const spent = await db.rpc("charge_credits_once", {
+    p_operation_key: opKey,
     p_user_id: user.id,
     p_amount: cost,
     p_action_type: "video_generation",
@@ -258,12 +260,7 @@ Deno.serve(async (request) => {
   }
 
   if (!generationId) {
-    await db.rpc("grant_user_credits", {
-      p_user_id: user.id,
-      p_amount: cost,
-      p_action_type: "video_generation_refund",
-      p_description: `Refund for failed ${model} request`,
-    });
+    await db.rpc("refund_credits_once", { p_operation_key: opKey, p_reason: `Refund for failed ${model} request` });
     return out({ error: true, message: lastError, attempted_keys: keys.length }, 502);
   }
 
@@ -284,12 +281,7 @@ Deno.serve(async (request) => {
     .select("id")
     .single();
   if (jobError) {
-    await db.rpc("grant_user_credits", {
-      p_user_id: user.id,
-      p_amount: cost,
-      p_action_type: "video_generation_refund",
-      p_description: `Refund for untracked ${model} request`,
-    });
+    await db.rpc("refund_credits_once", { p_operation_key: opKey, p_reason: `Refund for untracked ${model} request` });
     return out({ error: true, message: jobError.message }, 502);
   }
 
@@ -318,8 +310,10 @@ async function handleWave(
     return out({ error: true, message: "No active WaveSpeed keys are configured." }, 503);
 
   const cost = 25;
+  const opKey = String(body?.request_id || crypto.randomUUID());
   if (cost > 0) {
-    const spent = await db.rpc("spend_credits_auto", {
+    const spent = await db.rpc("charge_credits_once", {
+      p_operation_key: opKey,
       p_user_id: userId,
       p_amount: cost,
       p_action_type: "video_generation",
@@ -360,12 +354,7 @@ async function handleWave(
 
   const refund = async (why: string) => {
     if (cost > 0)
-      await db.rpc("grant_user_credits", {
-        p_user_id: userId,
-        p_amount: cost,
-        p_action_type: "video_generation_refund",
-        p_description: `Refund for ${why} ${model} request`,
-      });
+      await db.rpc("refund_credits_once", { p_operation_key: opKey, p_reason: `Refund for ${why} ${model} request` });
   };
   if (!generationId) {
     await refund("failed");
