@@ -1,70 +1,32 @@
-/**
- * @doc Referral progress bar — how many more members are needed for free Pro.
- * Pure presentation, theme tokens only, localized labels.
- */
-import { translateExactText, useUserLang } from "@/lib/authI18n";
+/** @doc Referral earnings — verified invites and the credits they earned (20 each). */
+import { useUserLang } from "@/lib/authI18n";
 
-export interface ReferralProgressBarProps {
-  referrals: number;
-  target: number;
-  granted?: boolean;
-  expiresAt?: string | null;
-  className?: string;
-}
+export const CREDITS_PER_REFERRAL = 20;
 
 export default function ReferralProgressBar({
   referrals,
-  target,
-  granted = false,
-  expiresAt,
   className = "",
-}: ReferralProgressBarProps) {
+}: {
+  referrals: number;
+  className?: string;
+}) {
   const lang = useUserLang();
-  const copy = (s: string) => translateExactText(s, lang);
-
-  const safeTarget = Math.max(1, target);
-  const done = Math.min(referrals, safeTarget);
-  const remaining = Math.max(0, safeTarget - referrals);
-  const pct = Math.round((done / safeTarget) * 100);
-  const expires = expiresAt ? new Date(expiresAt) : null;
-
-  const headline = granted
-    ? copy("Pro is active")
-    : remaining === 0
-      ? copy("Ready to claim your free Pro")
-      : `${remaining} ${remaining === 1 ? copy("member left to unlock Pro") : copy("members left to unlock Pro")}`;
-
+  const isAr = String(lang).startsWith("ar");
+  const earned = referrals * CREDITS_PER_REFERRAL;
   return (
-    <section className={`rounded-[18px] border border-border bg-background px-5 py-4 ${className}`}>
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="text-[14px] font-medium text-foreground">{headline}</p>
-        <span className="text-[13px] font-medium tabular-nums text-muted-foreground" dir="ltr">
-          {done} / {safeTarget}
-        </span>
+    <section className={`grid grid-cols-2 gap-3 ${className}`}>
+      <div className="rounded-[18px] border border-border bg-background px-5 py-4">
+        <p className="text-[12.5px] text-muted-foreground">{isAr ? "الإحالات" : "Referrals"}</p>
+        <p className="mt-1 text-[24px] font-semibold tabular-nums text-foreground" dir="ltr">{referrals}</p>
       </div>
-
-      <div
-        className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-foreground/10"
-        role="progressbar"
-        aria-valuemin={0}
-        aria-valuemax={safeTarget}
-        aria-valuenow={done}
-      >
-        <div
-          className="h-full rounded-full bg-foreground transition-[width] duration-500 ease-out"
-          style={{ width: `${pct}%` }}
-        />
+      <div className="rounded-[18px] border border-border bg-background px-5 py-4">
+        <p className="text-[12.5px] text-muted-foreground">{isAr ? "الكريدت اللي كسبته" : "Credits earned"}</p>
+        <p className="mt-1 text-[24px] font-semibold tabular-nums text-foreground" dir="ltr">+{earned}</p>
       </div>
-
-      <p className="mt-2.5 text-[12.5px] leading-relaxed text-muted-foreground">
-        {granted
-          ? expires
-            ? `${copy("Your free Pro access is active until")} ${expires.toLocaleDateString(
-                lang === "ar-eg" ? "ar-EG" : "en-US",
-                { year: "numeric", month: "short", day: "numeric" },
-              )}`
-            : copy("Your free Pro access is active.")
-          : copy("Only verified members who join with your link are counted.")}
+      <p className="col-span-2 px-1 text-[12.5px] leading-relaxed text-muted-foreground">
+        {isAr
+          ? "بيتحسب الصاحب بعد أول استخدام حقيقي ليه (صورة أو فيديو أو مهمة)."
+          : "A friend counts after their first real use (an image, a video or an agent task)."}
       </p>
     </section>
   );

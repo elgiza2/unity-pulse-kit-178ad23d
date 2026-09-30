@@ -2,7 +2,6 @@
 import { useUserLang, translateExactText } from "@/lib/authI18n";
 import heroImage from "@/assets/megsy-referral-hero.jpg";
 import ReferralProgressBar from "@/components/billing/ReferralProgressBar";
-import ReferralPartnerPanel from "@/components/billing/ReferralPartnerPanel";
 import ReferralTasksList from "@/components/billing/ReferralTasksList";
 import { useReferrals } from "@/pages/billing/ReferralsPage";
 
@@ -11,18 +10,18 @@ export default function DashboardTab() {
   const copy = (text: string) => translateExactText(text, lang);
   const { milestone } = useReferrals();
 
-  if (milestone.isPartner) return <ReferralPartnerPanel />;
+  const isAr = lang === "ar-eg" || String(lang).startsWith("ar");
 
   return (
     <div className="flex h-full flex-col" data-stagger>
       <header className="pt-1 text-center">
         <h1 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-[42px]">
-          {copy("Invite 5 friends, get Pro free")}
+          {isAr ? "ادعُ أصحابك واكسب 20 كريدت عن كل واحد" : "Invite friends, earn 20 credits each"}
         </h1>
         <p className="mx-auto mt-3 max-w-[460px] text-[14.5px] leading-relaxed text-muted-foreground">
-          {copy(
-            "Every friend who joins Megsy AI with your link brings you closer to free Pro access for a limited time.",
-          )}
+          {isAr
+            ? "كل صاحب يسجل برابطك ويستخدم Megsy لأول مرة يضيفلك 20 كريدت. وكمان كل مهمة تخلصها تديك 10 كريدت."
+            : "Every friend who joins with your link and makes their first real use adds 20 credits to your balance. Each task below adds 10 more."}
         </p>
       </header>
 
@@ -39,9 +38,6 @@ export default function DashboardTab() {
       <ReferralProgressBar
         className="mt-5"
         referrals={milestone.referrals}
-        target={milestone.target}
-        granted={milestone.isPartner}
-        expiresAt={milestone.state?.expires_at ?? null}
       />
 
       <ReferralTasksList className="mt-7" />

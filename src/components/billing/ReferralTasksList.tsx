@@ -54,7 +54,7 @@ export default function ReferralTasksList({ className = "" }: { className?: stri
       {!open ? null : (
       <>
       <p className="mt-3 px-1 text-[12.5px] leading-relaxed text-muted-foreground">
-        {copy("Finish all steps below to unlock your free Pro subscription.")}
+        {String(lang).startsWith("ar") ? "كل مهمة تخلصها تضيفلك 10 كريدت مرة واحدة." : "Each task you finish adds 10 credits, once."}
       </p>
 
 
@@ -78,6 +78,7 @@ export default function ReferralTasksList({ className = "" }: { className?: stri
                 ) : null}
               </span>
               <span className="shrink-0 text-muted-foreground">
+                {task.done ? null : <span className="me-2 text-[12.5px] font-medium text-foreground">+10</span>}
                 {task.done ? (
                   <Check className="h-4 w-4" aria-hidden="true" />
                 ) : (

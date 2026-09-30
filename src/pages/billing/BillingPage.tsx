@@ -233,9 +233,6 @@ const BillingPage = () => {
   const progressCard = (
     <ReferralProgressBar
       referrals={milestone.referrals}
-      target={milestone.target}
-      granted={milestone.isPartner}
-      expiresAt={milestone.state?.expires_at ?? null}
     />
   );
 
