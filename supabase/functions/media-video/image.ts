@@ -84,7 +84,9 @@ export async function handleImage(
   const keys = await vaultKeys("runway");
   if (!keys.length) return out({ error: true, message: "No active Runway keys are configured." }, 503);
   const cost = 2;
-  const spent = await db.rpc("spend_credits_auto", {
+  const opKey = String(body?.request_id || crypto.randomUUID());
+  const spent = await db.rpc("charge_credits_once", {
+    p_operation_key: opKey,
     p_user_id: userId,
     p_amount: cost,
     p_action_type: "image_generation",
@@ -110,11 +112,6 @@ export async function handleImage(
       if (status === 400) break;
     }
   }
-  await db.rpc("grant_user_credits", {
-    p_user_id: userId,
-    p_amount: cost,
-    p_action_type: "image_generation_refund",
-    p_description: "Refund for failed image",
-  });
+  await db.rpc("refund_credits_once", { p_operation_key: opKey, p_reason: "Refund for failed image" });
   return out({ error: true, message: lastError }, 502);
 }
