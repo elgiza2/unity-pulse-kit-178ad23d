@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Check, Loader2, Plus, Minus, ArrowRight } from "lucide-react";
 import { getDisplayPrice, type PlanCardConfig, type PlanTier } from "@/data/pricingData";
 import { translateExactText, useUserLang } from "@/lib/authI18n";
+import CreditPacks from "@/components/billing/CreditPacks";
 
 type Props = {
   plans: PlanCardConfig[];
