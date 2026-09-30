@@ -1,4 +1,4 @@
-/** @doc Referral program — invite 5 friends, get Pro free. No points system. */
+/** @doc Referral program — 20 credits per verified invite, 10 per task. */
 import {
   useState,
   useEffect,
@@ -436,18 +436,6 @@ const ReferralsPage = () => {
             className="inline-flex h-[52px] w-full items-center justify-center rounded-[16px] bg-foreground px-5 text-[15px] font-semibold text-background transition hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
           >
             {translateExactText("Invite friends", lang)}
-          </button>
-          <button
-            type="button"
-            onClick={claimPro}
-            disabled={milestone.loading || milestone.failed || milestone.claiming || milestone.isPartner}
-            className="inline-flex h-[52px] w-full items-center justify-center rounded-[16px] border border-border bg-background px-5 text-[15px] font-medium text-foreground transition hover:bg-foreground/[0.05] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            {milestone.isPartner
-              ? translateExactText("Pro is active", lang)
-              : milestone.claiming
-                ? translateExactText("Activating Pro…", lang)
-                : translateExactText("Get Pro", lang)}
           </button>
     </div>
   );

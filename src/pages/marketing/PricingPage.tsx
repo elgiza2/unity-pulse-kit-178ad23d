@@ -379,7 +379,7 @@ const PricingPage = () => {
   const proPlan = PLANS.find((p) => p.tier === "pro");
 
   // ─── Mobile-only pricing showcase ──
-  if (isMobile && proPlan) {
+  if (proPlan) {
     return (
       <>
         <SEOHead
@@ -391,7 +391,7 @@ const PricingPage = () => {
           <script type="application/ld+json">{JSON.stringify(pricingLd)}</script>
         </Helmet>
         {/* Same overlay sidebar the chat page uses on mobile. */}
-        <div className="md:hidden">
+        <div>
           <AppSidebar
             open={mobileOpen}
             onClose={() => setMobileOpen(false)}
@@ -399,6 +399,8 @@ const PricingPage = () => {
             currentMode="chat"
           />
         </div>
+        <div className={isMobile ? "" : "min-h-[100dvh] bg-background"}>
+        <div className={isMobile ? "" : "mx-auto w-full max-w-[480px] [transform:translateZ(0)]"}>
         <MobilePricingScreen
             isYearly={isYearly}
             onToggleYearly={setIsYearly}
@@ -411,6 +413,8 @@ const PricingPage = () => {
             }
             onMenuClick={() => setMobileOpen(true)}
           />
+        </div>
+        </div>
         <Suspense fallback={null}>
           {gatewaySheet && (
             <PaymentGatewaySheet
